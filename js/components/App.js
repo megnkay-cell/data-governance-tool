@@ -1,4 +1,4 @@
-const DEFAULT_VISIBLE_COLS = ['objectType', 'domain', 'steward', 'certificationStatus', 'tags', 'lastUpdated'];
+const DEFAULT_VISIBLE_COLS = ['objectType', 'domain', 'pillar', 'steward', 'certificationStatus', 'tags', 'lastUpdated'];
 
 const EMPTY_FILTERS = {
   objectTypes:  [],
@@ -7,12 +7,20 @@ const EMPTY_FILTERS = {
   dataSources:  [],
   tags:         [],
   certStatuses: [],
+  pillars:      [],
 };
+
+const TABS = [
+  { id: 'objects',   label: 'Data Objects' },
+  { id: 'quality',   label: 'Data Quality' },
+  { id: 'governance', label: 'Data Governance' },
+];
 
 const App = () => {
   const [allData, setAllData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
+  const [activeTab, setActiveTab] = React.useState('objects');
   const [filters, setFilters] = React.useState(EMPTY_FILTERS);
   const [search, setSearch] = React.useState('');
   const [sortField, setSortField] = React.useState('name');
@@ -28,12 +36,13 @@ const App = () => {
 
   const filtered = React.useMemo(() => {
     return allData.filter(item => {
-      if (filters.objectTypes.length  && !filters.objectTypes.includes(item.objectType))          return false;
-      if (filters.domains.length      && !filters.domains.includes(item.domain))                  return false;
-      if (filters.stewards.length     && !filters.stewards.includes(item.steward))                return false;
-      if (filters.dataSources.length  && !filters.dataSources.includes(item.dataSource))          return false;
+      if (filters.objectTypes.length  && !filters.objectTypes.includes(item.objectType))           return false;
+      if (filters.domains.length      && !filters.domains.includes(item.domain))                   return false;
+      if (filters.stewards.length     && !filters.stewards.includes(item.steward))                 return false;
+      if (filters.dataSources.length  && !filters.dataSources.includes(item.dataSource))           return false;
       if (filters.certStatuses.length && !filters.certStatuses.includes(item.certificationStatus)) return false;
-      if (filters.tags.length         && !filters.tags.some(t => item.tags.includes(t)))          return false;
+      if (filters.pillars.length      && !filters.pillars.includes(item.pillar))                   return false;
+      if (filters.tags.length         && !filters.tags.some(t => item.tags.includes(t)))           return false;
 
       if (search) {
         const q = search.toLowerCase();
@@ -87,31 +96,56 @@ const App = () => {
           <h1>Data Governance Tool</h1>
           <div className="header-subtitle">Powered by Alation</div>
         </div>
+        <nav className="tab-nav">
+          {TABS.map(tab => (
+            <button
+              key={tab.id}
+              className={`tab-btn${activeTab === tab.id ? ' active' : ''}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </nav>
         <div className="header-right">
-          {filtered.length} of {allData.length} objects
+          {activeTab === 'objects' ? `${filtered.length} of ${allData.length} objects` : `${allData.length} objects`}
         </div>
       </header>
 
-      <div className="app-body">
-        <FilterPanel
-          data={allData}
-          filters={filters}
-          onFilterChange={setFilters}
-          onClearAll={() => setFilters(EMPTY_FILTERS)}
-        />
-        <DataTable
-          data={sorted}
-          totalCount={allData.length}
-          sortField={sortField}
-          sortDir={sortDir}
-          onSort={handleSort}
-          search={search}
-          onSearch={setSearch}
-          onRowClick={setSelectedItem}
-          visibleCols={visibleCols}
-          onToggleCol={handleToggleCol}
-        />
-      </div>
+      {activeTab === 'objects' && (
+        <div className="app-body">
+          <FilterPanel
+            data={allData}
+            filters={filters}
+            onFilterChange={setFilters}
+            onClearAll={() => setFilters(EMPTY_FILTERS)}
+          />
+          <DataTable
+            data={sorted}
+            totalCount={allData.length}
+            sortField={sortField}
+            sortDir={sortDir}
+            onSort={handleSort}
+            search={search}
+            onSearch={setSearch}
+            onRowClick={setSelectedItem}
+            visibleCols={visibleCols}
+            onToggleCol={handleToggleCol}
+          />
+        </div>
+      )}
+
+      {activeTab === 'quality' && (
+        <div className="pv-scroll">
+          <DataQualityView data={allData} />
+        </div>
+      )}
+
+      {activeTab === 'governance' && (
+        <div className="pv-scroll">
+          <DataGovernanceView data={allData} />
+        </div>
+      )}
 
       {selectedItem && (
         <DetailPanel

@@ -22,7 +22,8 @@ const getCounts = (data, key) => {
 };
 
 const FILTER_SECTIONS = [
-  { key: 'objectTypes',  label: 'Object Type',    dataKey: 'objectType' },
+  { key: 'pillars',      label: 'Pillar',          dataKey: 'pillar' },
+  { key: 'objectTypes',  label: 'Object Type',     dataKey: 'objectType' },
   { key: 'domains',      label: 'Domain',          dataKey: 'domain' },
   { key: 'stewards',     label: 'Steward',         dataKey: 'steward' },
   { key: 'dataSources',  label: 'Data Source',     dataKey: 'dataSource' },

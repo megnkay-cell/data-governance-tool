@@ -35,6 +35,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 24px;
   flex-shrink: 0;
   box-shadow: 0 1px 4px rgba(0,0,0,0.3);
   z-index: 10;
@@ -42,7 +43,24 @@ body {
 
 .app-header h1 { font-size: 16px; font-weight: 600; letter-spacing: 0.01em; }
 .header-subtitle { font-size: 12px; color: #94a3b8; margin-top: 1px; }
-.header-right { font-size: 13px; color: #94a3b8; }
+.header-right { font-size: 13px; color: #94a3b8; white-space: nowrap; }
+
+/* ── Tab Nav ──────────────────────────────────────────── */
+.tab-nav { display: flex; gap: 4px; }
+.tab-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.tab-btn:hover { background: rgba(255,255,255,0.1); color: #e2e8f0; }
+.tab-btn.active { background: rgba(255,255,255,0.15); color: #fff; }
 
 .app-body {
   display: flex;
@@ -315,6 +333,97 @@ body {
 .page-btn:hover:not(:disabled) { background: #f8fafc; }
 .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .page-info { font-size: 13px; color: var(--text-light); }
+
+/* ── Pillar Views ─────────────────────────────────────── */
+.pv-scroll { flex: 1; overflow-y: auto; background: #f8fafc; }
+
+.pv-container { max-width: 1100px; margin: 0 auto; padding: 28px 24px; }
+
+.pv-header { margin-bottom: 24px; }
+.pv-title { font-size: 20px; font-weight: 700; color: var(--text); }
+.pv-subtitle { font-size: 13px; color: var(--text-light); margin-top: 4px; }
+
+.pv-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+@media (max-width: 900px) { .pv-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 580px) { .pv-grid { grid-template-columns: 1fr; } }
+
+.pv-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.pv-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.pv-icon { font-size: 22px; flex-shrink: 0; }
+.pv-pillar-name { font-size: 16px; font-weight: 700; color: var(--text); }
+.pv-object-count { font-size: 12px; color: var(--text-light); margin-top: 1px; }
+
+.pv-score {
+  margin-left: auto;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.pv-score-pct { font-size: 14px; font-weight: 600; }
+
+.pv-cert-bar {
+  display: flex;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--border);
+}
+.pv-cert-bar > div { transition: width 0.3s; }
+
+.pv-legend { display: flex; flex-direction: column; gap: 5px; }
+.pv-legend-row { display: flex; align-items: center; gap: 7px; font-size: 12px; }
+.pv-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.pv-legend-label { flex: 1; color: var(--text-light); }
+.pv-legend-count { font-weight: 600; color: var(--text); }
+
+.pv-alert {
+  font-size: 12px;
+  color: #92400e;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+/* governance meters */
+.pv-meters { display: flex; flex-direction: column; gap: 10px; }
+.pv-meter {}
+.pv-meter-top { display: flex; justify-content: space-between; margin-bottom: 4px; }
+.pv-meter-label { font-size: 12px; color: var(--text-light); }
+.pv-meter-val { font-size: 12px; font-weight: 600; color: var(--text); }
+.pv-meter-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.pv-meter-fill { height: 100%; border-radius: 3px; transition: width 0.3s; }
+
+.pv-flags { display: flex; flex-wrap: wrap; gap: 6px; }
+.pv-flag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+.pv-flag-pii        { background: #fee2e2; color: #991b1b; }
+.pv-flag-compliance { background: #ede9fe; color: #5b21b6; }
+.pv-flag-sensitive  { background: #ffedd5; color: #9a3412; }
+.pv-flag-deprecated { background: #f1f5f9; color: #475569; }
 
 /* ── Detail Panel ─────────────────────────────────────── */
 .detail-overlay {
