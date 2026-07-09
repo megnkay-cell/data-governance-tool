@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Governance Tool</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- Plain JS: no JSX, loads synchronously before Babel kicks in -->
+  <script src="js/mock-data.js"></script>
+  <script src="js/api.js"></script>
+
+  <!-- React components: Babel processes these in DOM order after DOMContentLoaded -->
+  <script type="text/babel" src="js/components/FilterPanel.js"></script>
+  <script type="text/babel" src="js/components/DataTable.js"></script>
+  <script type="text/babel" src="js/components/DetailPanel.js"></script>
+  <script type="text/babel" src="js/components/App.js"></script>
+</body>
+</html>
